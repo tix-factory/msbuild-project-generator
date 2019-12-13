@@ -41,7 +41,7 @@ const run = function() {
 		}
 
 		var dotnet = child_process.spawn("dotnet", ["run", directory, projectFile], {
-			cwd: "./TixFactory.MsBuildProjectGenerator/TixFactory.MsBuildProjectGenerator"
+			cwd: `${__dirname}/TixFactory.MsBuildProjectGenerator/TixFactory.MsBuildProjectGenerator`
 		});
 
 		dotnet.stdout.on("data", (data) => {
