@@ -1,0 +1,15 @@
+name: 'msbuild project generator'
+description: 'generates a project file given a directory that can be built by dotnet msbuild with projects being built in parallel and deployable components and tests being separated out into their own targets'
+branding:
+  icon: file-text
+  color: gray-dark
+inputs:
+  directory:
+    description: 'The directory to scrape for all the project files.'
+    required: true
+  projectFile:
+    description: 'The output file location of the generated project file.'
+    required: true
+runs:
+  using: 'node12'
+  main: 'main.js'

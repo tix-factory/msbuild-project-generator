@@ -1,0 +1,19 @@
+{
+	"name": "msbuild-project-generator",
+	"description": "generates a project file given a directory that can be built by dotnet msbuild with projects being built in parallel and deployable components and tests being separated out into their own targets",
+	"version": "1.0.0",
+	"main": "main.js",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tix-factory/msbuild-project-generator.git"
+	},
+	"dependencies": {
+		"@actions/core": "^1.0.0",
+		"@actions/github": "^1.0.0"
+	},
+	"keywords": [
+		"dotnet",
+		"msbuild"
+	]
+}
