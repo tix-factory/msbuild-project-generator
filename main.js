@@ -27,7 +27,7 @@ const run = function() {
 	directory = toAbsoluteFilePath(directory);
 	projectFile = toAbsoluteFilePath(projectFile);
 
-	console.log(`msbuild-project-generator\n\tdirectory: ${directory}\n\tprojectFile: ${projectFile}`);
+	console.log(`msbuild-project-generator\n\tdirectory: ${directory}\n\tprojectFile: ${projectFile}\n\tcurrent directory: ${process.cwd()}`);
 	
 	fs.stat(directory, function(err, stats) {
 		if (err) {
