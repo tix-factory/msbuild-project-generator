@@ -2,8 +2,6 @@ const fs = require("fs");
 const child_process = require("child_process");
 const core = require("@actions/core");
 
-const msbuildProjectGenerator = "./TixFactory.MsBuildProjectGenerator/TixFactory.MsBuildProjectGenerator/TixFactory.MsBuildProjectGenerator.csproj";
-
 const exitWithError = function(err) {
 	console.error(err);
 	process.exit(1);
@@ -12,7 +10,7 @@ const exitWithError = function(err) {
 const run = function() {
 	let directory = core.getInput("directory", { required: true });
 	let projectFile = core.getInput("projectFile", { required: true });
-
+	
 	fs.stat(directory, function(err, stats) {
 		if (err) {
 			exitWithError(err);
@@ -24,9 +22,17 @@ const run = function() {
 			return;
 		}
 
-		var dotnet = child_process.spawn("dotnet", ["run", msbuildProjectGenerator, directory, projectFile]);		
-		dotnet.stdout.on("data", console.log);
-		dotnet.stderr.on("data", exitWithError);
+		var dotnet = child_process.spawn("dotnet", ["run", directory, projectFile], {
+			cwd: "./TixFactory.MsBuildProjectGenerator/TixFactory.MsBuildProjectGenerator"
+		});
+
+		dotnet.stdout.on("data", (data) => {
+			console.log(data.toString());
+		});
+
+		dotnet.stderr.on("data", (data) => {
+			exitWithError(data.toString());
+		});
 
 		dotnet.on("close", function(code) {
 			if (code === 0) {

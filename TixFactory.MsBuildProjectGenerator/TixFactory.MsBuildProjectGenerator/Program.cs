@@ -33,7 +33,7 @@ namespace TixFactory.MsBuildProjectGenerator
 		{
 			if (args.Length != 2)
 			{
-				Console.Error.WriteLine($"Exactly two query parameters expected: inputDirectory, outputFilePath\n\tExample: TixFactory.MsBuildProjectGenerator.exe E:/Git/tix-factory/nuget ./build.proj");
+				Console.Error.WriteLine($"Exactly two query parameters expected: inputDirectory, outputFilePath\n\tExample: TixFactory.MsBuildProjectGenerator.exe E:/Git/tix-factory/nuget ./build.proj\n\tArguments ({args.Length}): {string.Join(", ", args)}");
 				Environment.Exit(1);
 				return;
 			}
