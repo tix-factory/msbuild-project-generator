@@ -7,9 +7,27 @@ const exitWithError = function(err) {
 	process.exit(1);
 };
 
+const toAbsoluteFilePath = function(filePath) {
+	var checkoutDirectory = process.env.GITHUB_WORKSPACE;
+	if (!checkoutDirectory) {
+		return filePath;
+	}
+
+	if (filePath.startsWith("./")) {
+		return `${checkoutDirectory}${filePath.substring(1)}`;
+	}
+
+	return filePath;
+};
+
 const run = function() {
 	let directory = core.getInput("directory", { required: true });
 	let projectFile = core.getInput("projectFile", { required: true });
+
+	directory = toAbsoluteFilePath(directory);
+	projectFile = toAbsoluteFilePath(projectFile);
+
+	console.log(`msbuild-project-generator\n\tdirectory: ${directory}\n\tprojectFile: ${projectFile}`);
 	
 	fs.stat(directory, function(err, stats) {
 		if (err) {
