@@ -10,7 +10,7 @@
 	<Import Project="$(RootPath)build/build.targets" />
 
 	<ItemGroup>
-		<PackageReference Include="TixFactory.RepositoryParser" Version="$(PackageVersion)" />
+		<PackageReference Include="TixFactory.RepositoryParser" Version="$(RepositoryParserVersion)" />
 	</ItemGroup>
 
 	<ItemGroup>

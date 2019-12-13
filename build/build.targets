@@ -10,7 +10,6 @@
 		<GeneratePackageOnBuild Condition="'$(IsPackable)' != 'false'">true</GeneratePackageOnBuild>
 		<RepositoryUrl>https://github.com/tix-factory/msbuild-project-generator</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageVersion Condition="'$(PackageVersion)' == ''">2.0.$(BUILD_NUMBER)</PackageVersion>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<SERVER_BUILD>false</SERVER_BUILD>
 	</PropertyGroup>
@@ -27,11 +26,12 @@
 		<CHECKOUT_DIRECTORY>$(GITHUB_WORKSPACE)</CHECKOUT_DIRECTORY>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(SERVER_BUILD)' != 'true'">
+		<RepositoryParserVersion>2.0.$(BUILD_NUMBER)</RepositoryParserVersion>
 		<LocalNuGetRepository Condition="'$(LocalNuGetRepository)' == ''">E:/LocalNuGetRepo</LocalNuGetRepository>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(SERVER_BUILD)' == 'true'">
+		<RepositoryParserVersion>2.0.*</RepositoryParserVersion>
 		<LocalNuGetRepository>$(CHECKOUT_DIRECTORY)/LocalNuGetRepo</LocalNuGetRepository>
-		<PublishNuGetRepository>$(CHECKOUT_DIRECTORY)/PublishNuGetRepo</PublishNuGetRepository>
 	</PropertyGroup>
 	<PropertyGroup>
 		<RestoreSources>
@@ -44,31 +44,5 @@
 	<Target Name="CreateLocalNuGetRpository"
 		BeforeTargets="Restore;CollectPackageReferences">
 		<MakeDir Directories="$(LocalNuGetRepository)" Condition="!Exists('$(LocalNuGetRepository)')" />
-		<MakeDir Directories="$(PublishNuGetRepository)" Condition="'$(SERVER_BUILD)' == 'true' AND !Exists('$(PublishNuGetRepository)')" />
-	</Target>
-
-	<!-- Development -->
-	<Target Name="CopyToLocalRepo"
-	        AfterTargets="Pack"
-			Condition="'$(SERVER_BUILD)|$(GeneratePackageOnBuild)' == 'false|true'">
-		<PropertyGroup>
-			<LocalCacheFolder>"$(UserProfile)\.nuget\packages\$(PackageId)\$(PackageVersion)"</LocalCacheFolder>
-			<NuGetFile>$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg</NuGetFile>
-		</PropertyGroup>
-		<Message Text="Copying $(NuGetFile) to $(LocalNuGetRepository)..." Importance="high"/>
-		<Copy SourceFiles="$(NuGetFile)" DestinationFolder="$(LocalNuGetRepository)" SkipUnchangedFiles="false" />
-		<Exec Command="rd /s /q $(LocalCacheFolder)"/>
-	</Target>
-
-	<!-- Build Agent -->
-	<Target Name="CopyToLocalRepo_Server"
-	        AfterTargets="Pack"
-			Condition="'$(SERVER_BUILD)|$(GeneratePackageOnBuild)' == 'true|true'">
-		<PropertyGroup>
-			<NuGetFile>$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg</NuGetFile>
-		</PropertyGroup>
-		<Message Text="Copying $(NuGetFile) to $(LocalNuGetRepository) and $(PublishNuGetRepository)..." Importance="high"/>
-		<Copy SourceFiles="$(NuGetFile)" DestinationFolder="$(LocalNuGetRepository)" SkipUnchangedFiles="false" />
-		<Copy SourceFiles="$(NuGetFile)" DestinationFolder="$(PublishNuGetRepository)" SkipUnchangedFiles="false" />
 	</Target>
 </Project>
