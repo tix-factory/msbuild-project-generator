@@ -1,7 +1,6 @@
 const fs = require("fs");
 const child_process = require("child_process");
 const core = require("@actions/core");
-const github = require("@actions/github");
 
 const msbuildProjectGenerator = "./TixFactory.MsBuildProjectGenerator/TixFactory.MsBuildProjectGenerator/TixFactory.MsBuildProjectGenerator.csproj";
 
