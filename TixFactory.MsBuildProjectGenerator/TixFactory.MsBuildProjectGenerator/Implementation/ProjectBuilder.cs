@@ -12,7 +12,8 @@ namespace TixFactory.MsBuildProjectGenerator
 	public class ProjectBuilder : IProjectBuilder
 	{
 		private const string _BuildTagName = "MSBuild";
-		private const string _BuildTagTargets = "Restore;Build";
+		private const string _RestoreTagTargets = "Restore";
+		private const string _BuildTagTargets = "Build";
 		private const string _PublishTagTargets = "Publish";
 		private const string _TestTagTargets = "Test";
 		private const string _BuildTargetsAttributeName = "Targets";
@@ -42,6 +43,7 @@ namespace TixFactory.MsBuildProjectGenerator
 
 			var rootProject = new XElement(_BuildProjectTemplate);
 			var buildTemplate = GetBuildTag(rootProject, _BuildTagTargets);
+			var restoreTemplate = GetBuildTag(rootProject, _RestoreTagTargets);
 			var publishTemplate = GetBuildTag(rootProject, _PublishTagTargets);
 			var testTemplate = GetBuildTag(rootProject, _TestTagTargets);
 
@@ -68,12 +70,17 @@ namespace TixFactory.MsBuildProjectGenerator
 
 				if (buildProjects.Any())
 				{
+					var restoreTag = new XElement(restoreTemplate);
+					restoreTag.SetAttributeValue("Projects", string.Join(';', buildProjects.Select(p => p.FilePath)));
+					buildTemplate.Parent?.Add(restoreTag);
+
 					var buildTag = new XElement(buildTemplate);
 					buildTag.SetAttributeValue("Projects", string.Join(';', buildProjects.Select(p => p.FilePath)));
 					buildTemplate.Parent?.Add(buildTag);
 				}
 			}
 
+			restoreTemplate.Remove();
 			buildTemplate.Remove();
 
 			if (publishProjects.Any())

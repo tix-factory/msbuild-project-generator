@@ -1,18 +1,31 @@
 ﻿<?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<BuildTargetProperties>BuildProjectReferences=false</BuildTargetProperties>
+	</PropertyGroup>
 	<Target Name="Build">
-		<MSBuild Targets="Restore;Build"
-			BuildInParallel="true"
-			Projects=""/>
+		<MSBuild Targets="Restore"
+		         Properties="$(BuildTargetProperties);DifferentParameterForNetStandardBug=Nothing"
+		         BuildInParallel="true"
+		         StopOnFirstFailure="true"
+		         Projects=""/>
+		<MSBuild Targets="Build"
+		         Properties="$(BuildTargetProperties)"
+		         BuildInParallel="true"
+		         StopOnFirstFailure="true"
+		         Projects=""/>
 	</Target>
 	<Target Name="Publish">
 		<MSBuild Targets="Publish"
+		         Properties="$(BuildTargetProperties)"
 		         BuildInParallel="true"
+		         StopOnFirstFailure="true"
 		         Projects=""/>
 	</Target>
 	<Target Name="Test">
 		<MSBuild Targets="Test"
 		         BuildInParallel="true"
+		         StopOnFirstFailure="true"
 		         Projects=""/>
 	</Target>
 </Project>
