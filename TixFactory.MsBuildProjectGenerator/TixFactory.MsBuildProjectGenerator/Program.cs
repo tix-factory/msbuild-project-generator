@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using Newtonsoft.Json;
 using TixFactory.RepositoryParser;
 
 namespace TixFactory.MsBuildProjectGenerator
@@ -64,6 +66,9 @@ namespace TixFactory.MsBuildProjectGenerator
 			}
 
 			var projects = _RepositoryParser.ParseProjects(inputDirectory);
+			var serializedProjects = projects.Select(p => new SerializableProject(p)).ToArray();
+
+			Console.WriteLine($"Parsed projects ({projects.Count}):\n{JsonConvert.SerializeObject(serializedProjects)}");
 
 			var buildProject = _ProjectBuilder.BuildBuildProject(projects);
 			buildProject.Save(outputFilePath);
