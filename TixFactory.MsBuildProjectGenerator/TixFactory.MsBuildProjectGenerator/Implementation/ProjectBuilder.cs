@@ -89,7 +89,7 @@ namespace TixFactory.MsBuildProjectGenerator
 				
 				var restoreTag = new XElement(restoreTemplate);
 				restoreTag.SetAttributeValue("Projects", projectsValue);
-				publishTemplate.Parent?.Add(restoreTag);
+				publishTemplate.AddBeforeSelf(restoreTag);
 
 				publishTemplate.SetAttributeValue("Projects", projectsValue);
 			}
