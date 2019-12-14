@@ -4,6 +4,7 @@
 		<BuildTargetProperties>BuildProjectReferences=false</BuildTargetProperties>
 	</PropertyGroup>
 	<Target Name="Build">
+		<!-- TODO: _what_ is DifferentParameterForNetStandardBug -->
 		<MSBuild Targets="Restore"
 		         Properties="$(BuildTargetProperties);DifferentParameterForNetStandardBug=Nothing"
 		         BuildInParallel="true"

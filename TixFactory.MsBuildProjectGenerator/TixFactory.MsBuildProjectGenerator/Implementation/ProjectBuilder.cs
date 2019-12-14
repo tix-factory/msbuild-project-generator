@@ -70,22 +70,28 @@ namespace TixFactory.MsBuildProjectGenerator
 
 				if (buildProjects.Any())
 				{
+					var projectsValue = string.Join(';', buildProjects.Select(p => p.FilePath));
+
 					var restoreTag = new XElement(restoreTemplate);
-					restoreTag.SetAttributeValue("Projects", string.Join(';', buildProjects.Select(p => p.FilePath)));
+					restoreTag.SetAttributeValue("Projects", projectsValue);
 					buildTemplate.Parent?.Add(restoreTag);
 
 					var buildTag = new XElement(buildTemplate);
-					buildTag.SetAttributeValue("Projects", string.Join(';', buildProjects.Select(p => p.FilePath)));
+					buildTag.SetAttributeValue("Projects", projectsValue);
 					buildTemplate.Parent?.Add(buildTag);
 				}
 			}
 
-			restoreTemplate.Remove();
-			buildTemplate.Remove();
 
 			if (publishProjects.Any())
 			{
-				publishTemplate.SetAttributeValue("Projects", string.Join(';', publishProjects.Select(p => p.FilePath)));
+				var projectsValue = string.Join(';', publishProjects.Select(p => p.FilePath));
+				
+				var restoreTag = new XElement(restoreTemplate);
+				restoreTag.SetAttributeValue("Projects", projectsValue);
+				publishTemplate.Parent?.Add(restoreTag);
+
+				publishTemplate.SetAttributeValue("Projects", projectsValue);
 			}
 			else
 			{
@@ -100,6 +106,9 @@ namespace TixFactory.MsBuildProjectGenerator
 			{
 				testTemplate.Remove();
 			}
+
+			restoreTemplate.Remove();
+			buildTemplate.Remove();
 
 			return rootProject;
 		}
