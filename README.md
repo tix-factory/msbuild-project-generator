@@ -20,3 +20,4 @@ Downloads a release asset from another repository and saves it to a file.
         directory: ./
         projectFile: ./build.project
 ```
+> See live sample on [tix-factory/nuget](https://github.com/tix-factory/nuget/blob/24800f6f1682857da6f560aede3373b55c2f3abe/.github/workflows/dotnetcore.yml#L25-L29) (build execution in [tix-factory/nuget/build/build.sh](https://github.com/tix-factory/nuget/blob/24800f6f1682857da6f560aede3373b55c2f3abe/build/build.sh#L19)).
