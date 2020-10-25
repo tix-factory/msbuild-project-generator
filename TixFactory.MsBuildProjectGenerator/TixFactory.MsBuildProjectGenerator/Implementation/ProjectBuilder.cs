@@ -56,6 +56,7 @@ namespace TixFactory.MsBuildProjectGenerator
 					{
 						case ProjectType.Tests:
 							testProjects.Add(project);
+							buildProjects.Add(project);
 							break;
 						case ProjectType.ConsoleApplication:
 						case ProjectType.WebApplication:
