@@ -9,7 +9,7 @@
 		"url": "https://github.com/tix-factory/msbuild-project-generator.git"
 	},
 	"dependencies": {
-		"@actions/core": "^1.2.6"
+		"@actions/core": "^1.9.1"
 	},
 	"keywords": [
 		"dotnet",
